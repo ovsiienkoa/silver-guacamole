@@ -52,7 +52,7 @@ while len(data['results']) != 0 and len(case_list) != 0:
         else:
             continue
 
-        timestamp = datetime.datetime.now(datetime.UTC)
+        timestamp = datetime.datetime.now(datetime.timezone.utc)
 
         row = {'hash_name': inst['hash_name'],
                'sell_listings': inst['sell_listings'],
