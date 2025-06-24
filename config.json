@@ -1,4 +1,7 @@
 {
   "PARSE_TIME_DELAY": 20,
-  "PARSE_ERROR_DELAY": 60
+  "PARSE_ERROR_DELAY": 60,
+  "PROJECT_ID": "",
+  "DATASET_ID": "",
+  "TABLE_ID": ""
 }
