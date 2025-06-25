@@ -41,8 +41,9 @@ PROJECT_ID = config["PROJECT_ID"]
 DATASET_ID = config["DATASET_ID"]
 TABLE_ID = config["TABLE_ID"]
 
-client = bigquery.Client(project=PROJECT_ID)
-table_ref = client.dataset(DATASET_ID).table(TABLE_ID)
+client = bigquery.Client(project=PROJECT_ID) #credentials??
+dataset_ref = bigquery.dataset.DatasetReference(project = PROJECT_ID, dataset_id = DATASET_ID)
+table_ref = bigquery.table.TableReference(dataset_ref = dataset_ref, table_id = TABLE_ID)
 
 data = {"results": [1]}
 start_point = 0
@@ -60,7 +61,7 @@ while len(data['results']) != 0 and len(case_list) != 0:
         else:
             continue
 
-        timestamp = datetime.datetime.now(datetime.timezone.utc).replace(minute=0, second=0, microsecond=0)
+        timestamp = datetime.datetime.now(datetime.timezone.utc).replace(minute=0, second=0, microsecond=0).isoformat()
 
         row = {'hash_name': inst['hash_name'],
                'sell_listings': inst['sell_listings'],
@@ -70,11 +71,7 @@ while len(data['results']) != 0 and len(case_list) != 0:
                }
         batch.append(row)
 
-    #sending batch to the cloud todo
-    # if len(batch) != 0:
-    #     with open("cloudlike.csv", "a") as f:
-    #         f.write(str(batch))
     if len(batch) != 0:
         errors = client.insert_rows_json(table_ref, batch)
-    #sending batch to the cloud todo
+
     time.sleep(PARSE_TIME_DELAY)
